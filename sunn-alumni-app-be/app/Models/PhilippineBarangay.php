@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class PhilippineBarangay extends Model
 {
     //
-    protected $table = 'philippine_cities';
+    protected $table = 'philippine_barangays';
 
     protected $fillable = [
         'psgc_code',
