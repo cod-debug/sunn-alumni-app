@@ -1,4 +1,4 @@
-# Alumni APp (sunn-alumni-app-fe)
+# Alumni App (sunn-alumni-app-fe)
 
 A Quasar Project
 
