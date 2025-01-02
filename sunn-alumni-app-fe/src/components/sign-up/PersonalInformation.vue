@@ -63,7 +63,7 @@
                 return this.$refs.personalInformationForm.validate();
             }
         },
-        updated(){
+        mounted(){
             this.personal_information = this.default_val;
         },
     }
