@@ -183,7 +183,13 @@ class DepartmentsSeeder extends Seeder
                 'department_accronym' => $department['department_accronym'],
             ];
 
-            $created_department = DepartmentModel::create($department_data);
+            $existing_department = DepartmentModel::where('department_name', $department['department_name'])->first();
+            
+            if($existing_department){
+                $created_department = $existing_department;
+            } else {
+                $created_department = DepartmentModel::create($department_data);
+            }
 
             if($department){
                 $department_id = $created_department->id;
@@ -194,8 +200,12 @@ class DepartmentsSeeder extends Seeder
                         'course_name' => $course['course_name'],
                         'course_accronym' => $course['course_accronym']
                     ];
+                    
+                    $existing_course = CourseModel::where('course_name', $course['course_name'])->first();
 
-                    CourseModel::create($course_data);
+                    if(!$existing_course){
+                        CourseModel::create($course_data);
+                    }
                 }
             }
         }
