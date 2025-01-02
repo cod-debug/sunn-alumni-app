@@ -16,4 +16,8 @@ class DepartmentModel extends Model
         'department_image',
         'status'
     ];
+
+    public function courses(){
+        return $this->hasMany(CourseModel::class, 'department_id', 'id');
+    }
 }

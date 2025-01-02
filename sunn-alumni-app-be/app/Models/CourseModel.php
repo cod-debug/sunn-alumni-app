@@ -17,4 +17,8 @@ class CourseModel extends Model
         'course_description',
         'status'
     ];
+
+    public function department(){
+        return $this->belongsTo(DepartmentModel::class, 'department_id');
+    }
 }
