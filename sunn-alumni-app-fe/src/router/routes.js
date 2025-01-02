@@ -1,3 +1,4 @@
+import authRoutes from './auth.js';
 const routes = [
   {
     path: '/',
@@ -12,7 +13,8 @@ const routes = [
   {
     path: '/:catchAll(.*)*',
     component: () => import('pages/ErrorNotFound.vue')
-  }
+  },
+  ...authRoutes
 ]
 
 export default routes
