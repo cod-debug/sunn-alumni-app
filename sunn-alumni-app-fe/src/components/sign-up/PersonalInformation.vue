@@ -16,13 +16,13 @@
                 <q-input v-model="personal_information.date_of_birth" label="Date of Birth (YYYY/MM/DD)" mask="date" :rules="['date', $rules.required]">
                     <template v-slot:append>
                         <q-icon name="event" class="cursor-pointer">
-                        <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                            <q-date v-model="personal_information.date_of_birth">
-                                <div class="row items-center justify-end">
-                                    <q-btn v-close-popup label="Close" color="primary" flat />
-                                </div>
-                            </q-date>
-                        </q-popup-proxy>
+                            <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                                <q-date v-model="personal_information.date_of_birth">
+                                    <div class="row items-center justify-end">
+                                        <q-btn v-close-popup label="Close" color="primary" flat />
+                                    </div>
+                                </q-date>
+                            </q-popup-proxy>
                         </q-icon>
                     </template>
                 </q-input>
