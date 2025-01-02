@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             PhilippineProvinceSeeder::class,
             PhilippineCitySeeder::class,
             PhilippineBarangaySeeder::class,
+            DepartmentsSeeder::class,
         ]);
     }
 }

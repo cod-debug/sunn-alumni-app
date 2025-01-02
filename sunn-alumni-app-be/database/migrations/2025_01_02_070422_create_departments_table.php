@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('departments', function (Blueprint $table) {
             $table->id();
             $table->string('department_name');
+            $table->string('department_accronym');
             $table->longText('department_description')->nullable();
             $table->string('department_image')->nullable();
             $table->string('status')->default('active');

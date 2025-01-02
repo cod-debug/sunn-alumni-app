@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('philippine_provinces', function (Blueprint $table) {
-            $table->increments('id');
+            $table->id();
             $table->string('psgc_code')->index();
             $table->string('name');
             $table->string('region_code')->index();
