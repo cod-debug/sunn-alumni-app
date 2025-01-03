@@ -44,13 +44,15 @@
                                 :done="sign_up_step > 3"
                                 :header-nav="sign_up_step > 3"
                             >
-                                <q-select v-model="sign_up_form.region" :options="options" label="Region" />
+                                <app-account-information ref="accountInformation" />
+                                <div class="text-right">
+                                    <q-btn @click="submitForm" color="secondary" label="Register" class="q-mt-md" icon-right="check_circle" />
+                                </div>
                             </q-step>
                         </q-stepper>
                         <q-stepper-navigation>
                             <q-btn flat type="button" @click="handleBack()" :disabled="sign_up_step === 1" color="primary" label="Back" class="q-ml-sm" icon="chevron_left" />
                             <q-btn flat type="button" @click="handleNext()" :disabled="sign_up_step === 3" color="primary" label="Next" class="q-ml-sm" icon-right="chevron_right" />
-                            <q-btn @click="submitForm" v-if="sign_up_step === 3" color="secondary" label="Register" class="q-ml-sm" icon-right="check_circle" />
                         </q-stepper-navigation>
                         <q-separator class="q-my-sm" />
                         <div class="text-center">
@@ -67,6 +69,7 @@
 <script>
     import PersonalInformation from 'components/sign-up/PersonalInformation.vue';
     import AddressInformation from 'components/sign-up/AddressInformation.vue';
+    import AccountInformation from 'components/sign-up/AccountInformation.vue';
     export default {
         data: () => {
             return {
@@ -137,6 +140,7 @@
         components: {
             appPersonalInformation: PersonalInformation,
             appAddressInformation: AddressInformation,
+            appAccountInformation: AccountInformation,
         }
     }
 </script>
