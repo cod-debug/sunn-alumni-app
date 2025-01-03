@@ -19,8 +19,8 @@ return new class extends Migration
             $table->string('gender');
             $table->date('date_of_birth');
             $table->string('civil_status');
-            $table->string('phone_number');
-            $table->string('mobile_number');
+            $table->string('phone_number')->nullable();
+            $table->string('mobile_number')->nullable();
             $table->string('username')->unique();
             $table->string('email')->unique();
             $table->string('password');

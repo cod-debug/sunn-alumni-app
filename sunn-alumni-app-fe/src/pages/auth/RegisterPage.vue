@@ -9,7 +9,7 @@
                     </div>
                     <p class="text-grey-8">Create your account.</p>
                     
-                    <q-form class="q-pa-lg" ref="registerForm">
+                    <div class="q-pa-lg">
                         <q-stepper
                             v-model="sign_up_step"
                             header-nav
@@ -25,7 +25,7 @@
                                 :done="sign_up_step > 1"
                                 :header-nav="sign_up_step > 1"
                             >
-                                <app-personal-information ref="personalInformation" :default_val="sign_up_form.personal_information" />
+                                <app-personal-information ref="personalInformation" :default_val="personal_information_app_current_data" />
                             </q-step>
                             <q-step
                                 :name="2"
@@ -59,7 +59,7 @@
                             <p class="q-mt-lg">Already have an account? </p>
                             <q-btn :to="{ name: 'auth-login' }" label="Back to Log in" size="sm" color="grey-6" />
                         </div>
-                    </q-form>
+                    </div>
                 </div>
             </div>
         </div>
@@ -70,16 +70,15 @@
     import PersonalInformation from 'components/sign-up/PersonalInformation.vue';
     import AddressInformation from 'components/sign-up/AddressInformation.vue';
     import AccountInformation from 'components/sign-up/AccountInformation.vue';
+    import { authStore } from 'stores/auth';
     export default {
         data: () => {
             return {
                 sign_up_step: 1,
                 region_options: [],
                 address_app_current_data: null,
-                sign_up_form: {
-                    personal_information: null,
-                    address_information: null,
-                }
+                account_app_current_data: null,
+                personal_information_app_current_data: null,
             }
         },
         methods: {
@@ -96,7 +95,7 @@
 
                     this.sign_up_step++;
 
-                    this.sign_up_form.personal_information = personal_information_ref.personal_information;
+                    this.personal_information_app_current_data = personal_information_ref.$data;
                     return false;
                 }
 
@@ -109,9 +108,8 @@
                         return false;
                     }
 
-                    // add condition for validation of second step here...
-                    this.sign_up_step++;
                     this.address_app_current_data = address_information_ref.$data;
+                    this.sign_up_step++;
 
                     return false;
                 }
@@ -123,25 +121,77 @@
                     const address_information_ref = this.$refs.addressInformation;
 
                     this.address_app_current_data = address_information_ref.$data;
+                    this.sign_up_step--;
+                    return false;
                 }
-                this.sign_up_step--;
+                if(this.sign_up_step === 3){
+                    const account_information_ref = this.$refs.accountInformation;
+                    
+                    this.account_app_current_data = account_information_ref.$data;
+
+                    this.sign_up_step--;
+                    return false;
+                }
 
             },
 
             async submitForm(){
-                if (!this.$refs.registerForm.validate()) {
+                if(this.sign_up_step !== 3){
                     return false;
                 }
-                const personal_information_data = this.$refs.personalInformation.personal_information;
+                
+                const account_information_ref = this.$refs.accountInformation;
 
-                console.log(personal_information_data);
+                const is_valid_form = await account_information_ref.validateForm();
+
+                if(!is_valid_form){
+                    return false;
+                }
+                
+                this.account_app_current_data = account_information_ref.$data;
+
+                const personal_information = this.personal_information_app_current_data.personal_information;
+                const address_information = this.address_app_current_data.address_information;
+                const account_information = this.account_app_current_data.account_information;
+
+                if(address_information.same_as_present_address){
+                    address_information.permanent_address_region_id = address_information.present_address_region_id;
+                    address_information.permanent_address_province_id = address_information.present_address_province_id;
+                    address_information.permanent_address_city_id = address_information.present_address_city_id;
+                    address_information.permanent_address_barangay_id = address_information.present_address_barangay_id;
+                    address_information.permanent_address_1 = address_information.present_address_1;
+                    address_information.permanent_address_2 = address_information.present_address_2;
+                }
+                
+                let payload = {
+                    ...personal_information,
+                    department_id: personal_information.department_id.id,
+                    course_id: personal_information.course_id.id,
+                    ...address_information,
+                    permanent_address_region_id: address_information.permanent_address_region_id.id,
+                    permanent_address_province_id: address_information.permanent_address_province_id.id,
+                    permanent_address_city_id: address_information.permanent_address_city_id.id,
+                    permanent_address_barangay_id: address_information.permanent_address_barangay_id.id,
+                    present_address_region_id: address_information.present_address_region_id.id,
+                    present_address_province_id: address_information.present_address_province_id.id,
+                    present_address_city_id: address_information.present_address_city_id.id,
+                    present_address_barangay_id: address_information.present_address_barangay_id.id,
+                    ...account_information
+                }
+
+                await this.$authStore.registerUser(payload);
+                const response = this.$authStore.getRegisterRequestData;
+                console.log(response);
             }
         },
         components: {
             appPersonalInformation: PersonalInformation,
             appAddressInformation: AddressInformation,
             appAccountInformation: AccountInformation,
-        }
+        },
+        created(){
+            this.$authStore = authStore();
+        },
     }
 </script>
 

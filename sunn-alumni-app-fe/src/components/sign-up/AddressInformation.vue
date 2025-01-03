@@ -14,7 +14,7 @@
                     :loading="$addressStore.getRegions.loading"
                     :option-value="(option) => option === null ? null : option.id"
                     :option-label="(option) => option === null ? null : option.name"
-                    :rules="['required']"
+                     :rules="[$rules.required]"
                 />
             </div>
             <div class="col-12 col-md-6 q-pa-sm">
@@ -30,7 +30,7 @@
                     @update:model-value="handleChangePresentProvince"
                     :option-value="(option) => option === null ? null : option.id"
                     :option-label="(option) => option === null ? null : option.name"
-                    :rules="['required']"
+                     :rules="[$rules.required]"
                 />
             </div>
             <div class="col-12 col-md-6 q-pa-sm">
@@ -46,7 +46,7 @@
                     @update:model-value="handleChangePresentCity"
                     :option-value="(option) => option === null ? null : option.id"
                     :option-label="(option) => option === null ? null : option.name"
-                    :rules="['required']"
+                    :rules="[$rules.required]"
                 />
             </div>
             <div class="col-12 col-md-6 q-pa-sm">
@@ -61,7 +61,7 @@
                     input-debounce="0"
                     :option-value="(option) => option === null ? null : option.id"
                     :option-label="(option) => option === null ? null : option.name.toUpperCase()"
-                    :rules="['required']"
+                    :rules="[$rules.required]"
                 />
             </div>
             <div class="col-12 col-md-6 q-pa-sm">
@@ -92,7 +92,7 @@
                     :loading="$addressStore.getRegions.loading"
                     :option-value="(option) => option === null ? null : option.id"
                     :option-label="(option) => option === null ? null : option.name"
-                    :rules="['required']"
+                    :rules="[$rules.required]"
                 />
             </div>
             <div class="col-12 col-md-6 q-pa-sm">
@@ -108,7 +108,7 @@
                     @update:model-value="handleChangeProvince"
                     :option-value="(option) => option === null ? null : option.id"
                     :option-label="(option) => option === null ? null : option.name"
-                    :rules="['required']"
+                    :rules="[$rules.required]"
                 />
             </div>
             <div class="col-12 col-md-6 q-pa-sm">
@@ -124,7 +124,7 @@
                     @update:model-value="handleChangeCity"
                     :option-value="(option) => option === null ? null : option.id"
                     :option-label="(option) => option === null ? null : option.name"
-                    :rules="['required']"
+                    :rules="[$rules.required]"
                 />
             </div>
             <div class="col-12 col-md-6 q-pa-sm">
@@ -139,7 +139,7 @@
                     input-debounce="0"
                     :option-value="(option) => option === null ? null : option.id"
                     :option-label="(option) => option === null ? null : option.name.toUpperCase()"
-                    :rules="['required']"
+                    :rules="[$rules.required]"
                 />
             </div>
             <div class="col-12 col-md-6 q-pa-sm">
@@ -156,7 +156,8 @@
     </q-form>
 </template>
 <script>
-    import { addressStore } from '../../stores/address';
+    import { addressStore } from 'stores/address';
+    
     export default {
         props: {
             default_val: {

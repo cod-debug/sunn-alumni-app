@@ -19,9 +19,6 @@ return new class extends Migration
             $table->unsignedBigInteger('course_id');
             $table->foreign('course_id')->references('id')->on('courses');
 
-            $table->unsignedBigInteger('nature_of_work_id');
-            $table->foreign('nature_of_work_id')->references('id')->on('natures_of_work');
-
             $table->unsignedBigInteger('permanent_address_region_id')->nullable();
             $table->foreign('permanent_address_region_id')->references('id')->on('philippine_regions');
 
@@ -63,7 +60,6 @@ return new class extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('department_id');
             $table->dropColumn('course_id');
-            $table->dropColumn('nature_of_work_id');
             $table->dropColumn('permanent_address_region_id');
             $table->dropColumn('permanent_address_province_id');
             $table->dropColumn('permanent_address_city_id');
