@@ -35,7 +35,7 @@
                                 :done="sign_up_step > 2"
                                 :header-nav="sign_up_step > 2"
                             >
-                                <app-address-information ref="addressInformation" />
+                                <app-address-information ref="addressInformation" :default_val="address_app_current_data" />
                             </q-step>
                             <q-step
                                 :name="3"
@@ -72,6 +72,7 @@
             return {
                 sign_up_step: 1,
                 region_options: [],
+                address_app_current_data: null,
                 sign_up_form: {
                     personal_information: null,
                     address_information: null,
@@ -107,15 +108,20 @@
 
                     // add condition for validation of second step here...
                     this.sign_up_step++;
-                    this.sign_up_form.address_information = address_information_ref.address_information;
+                    this.address_app_current_data = address_information_ref.$data;
 
                     return false;
                 }
 
             },
 
-            handleBack(){
-                    this.sign_up_step--;
+            async handleBack(){
+                if(this.sign_up_step === 2){
+                    const address_information_ref = this.$refs.addressInformation;
+
+                    this.address_app_current_data = address_information_ref.$data;
+                }
+                this.sign_up_step--;
 
             },
 

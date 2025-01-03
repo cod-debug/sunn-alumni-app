@@ -158,6 +158,11 @@
 <script>
     import { addressStore } from '../../stores/address';
     export default {
+        props: {
+            default_val: {
+                type: Object
+            },
+        },
         data: () => {
             return {
                 address_information: {
@@ -379,6 +384,11 @@
         },
         mounted(){
             this.getRegions();
+            if(this.default_val !== null){
+                for (let column in this.default_val) {
+                    this[column] = this.default_val[column];
+                }
+            }
         },
         created(){
             this.$addressStore = addressStore();
