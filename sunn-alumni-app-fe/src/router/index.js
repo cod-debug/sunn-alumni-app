@@ -1,6 +1,7 @@
 import { defineRouter } from '#q-app/wrappers'
 import { createRouter, createMemoryHistory, createWebHistory, createWebHashHistory } from 'vue-router'
 import routes from './routes'
+import { Notify } from 'quasar';
 
 /*
  * If not building with SSR mode, you can
@@ -16,6 +17,8 @@ export default defineRouter(function (/* { store, ssrContext } */) {
     ? createMemoryHistory
     : (process.env.VUE_ROUTER_MODE === 'history' ? createWebHistory : createWebHashHistory)
 
+  const accessToken = localStorage.getItem('__sunn_alumni_app_fe_token');
+
   const Router = createRouter({
     scrollBehavior: () => ({ left: 0, top: 0 }),
     routes,
@@ -25,6 +28,21 @@ export default defineRouter(function (/* { store, ssrContext } */) {
     // quasar.conf.js -> build -> publicPath
     history: createHistory(process.env.VUE_ROUTER_BASE)
   })
+
+  Router.beforeEach((to, from, next) => {
+    let requiresAuth = to.meta.notRequiredAuth || false;
+
+    if (!requiresAuth && !accessToken) {
+      Notify.create({
+        message: `Unauthorized user detected.`,
+        position: 'top-right',
+        closeBtn: "X",
+        timeout: 2000,
+        color: 'red',
+      })
+      next({ name: "auth-login" });
+    } else next();
+  });
 
   return Router
 })

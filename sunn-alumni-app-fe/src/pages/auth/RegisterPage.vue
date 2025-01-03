@@ -35,7 +35,7 @@
                                 :done="sign_up_step > 2"
                                 :header-nav="sign_up_step > 2"
                             >
-                                <q-select v-model="sign_up_form.region" :options="region_options" label="Region" />
+                                <app-address-information ref="addressInformation" />
                             </q-step>
                             <q-step
                                 :name="3"
@@ -66,13 +66,15 @@
 
 <script>
     import PersonalInformation from 'components/sign-up/PersonalInformation.vue';
+    import AddressInformation from 'components/sign-up/AddressInformation.vue';
     export default {
         data: () => {
             return {
                 sign_up_step: 1,
                 region_options: [],
                 sign_up_form: {
-                    personal_information: {}
+                    personal_information: null,
+                    address_information: null,
                 }
             }
         },
@@ -82,9 +84,9 @@
                 // first step
                 if(this.sign_up_step === 1){
                     const personal_information_ref = this.$refs.personalInformation;
-                    const is_valid_personal_information = await personal_information_ref.validateForm();
+                    const is_valid_personal_information_form = await personal_information_ref.validateForm();
 
-                    if(!is_valid_personal_information){
+                    if(!is_valid_personal_information_form){
                         return false;
                     }
 
@@ -96,8 +98,16 @@
 
                 // second step
                 if(this.sign_up_step === 2){
+                    const address_information_ref = this.$refs.addressInformation;
+                    const is_valid_address_information = await address_information_ref.validateForm();
+
+                    if(!is_valid_address_information){
+                        return false;
+                    }
+
                     // add condition for validation of second step here...
                     this.sign_up_step++;
+                    this.sign_up_form.address_information = address_information_ref.address_information;
 
                     return false;
                 }
@@ -119,7 +129,8 @@
             }
         },
         components: {
-            AppPersonalInformation: PersonalInformation,
+            appPersonalInformation: PersonalInformation,
+            appAddressInformation: AddressInformation,
         }
     }
 </script>

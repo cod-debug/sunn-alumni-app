@@ -6,11 +6,17 @@ const authRoutes = [
             {
                 path: 'login',
                 name: 'auth-login',
-                component: () => import('pages/auth/LoginPage.vue')
+                meta: {
+                    notRequiredAuth: true,
+                },
+                component: () => import('pages/auth/LoginPage.vue'),
             },
             {
                 path: 'register',
                 name: 'auth-register',
+                meta: {
+                    notRequiredAuth: true,
+                },
                 component: () => import('pages/auth/RegisterPage.vue')
             }
         ]

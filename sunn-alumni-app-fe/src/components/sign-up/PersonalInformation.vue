@@ -41,8 +41,9 @@
     export default {
         props: {
             default_val: {
-                type: Object
-            }
+                type: Object,
+                default: null
+            },
         },
         data: () => {
             return {
@@ -54,17 +55,20 @@
                     last_name: "",
                     date_of_birth: "",
                     gender: "",
-                    civil_status: ""
-                }
+                    civil_status: "",
+                    permanent_address_region_id: null,
+                },
             }
         },
         methods: {
             validateForm(){
                 return this.$refs.personalInformationForm.validate();
-            }
+            },
         },
         mounted(){
-            this.personal_information = this.default_val;
+            if(this.default_val !== null){
+                this.personal_information = this.default_val;
+            }
         },
     }
 </script>
